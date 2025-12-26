@@ -1,0 +1,38 @@
+<template>
+    <lightning-card
+        title="Today's Sales"
+        icon-name="standard:orders">
+
+        <div class="slds-p-around_medium">
+
+            <!-- When sales exist -->
+           <template if:true={hasSales}>
+    <div style={tableStyle}>
+        <lightning-datatable
+            key-field="Id"
+            data={salesList}
+            columns={columns}
+            hide-checkbox-column
+            show-row-number-column>
+        </lightning-datatable>
+    </div>
+
+    <!-- Total Amount -->
+    <div class="slds-m-top_small slds-grid slds-grid_align-end">
+        <span class="slds-text-heading_small slds-theme_shade slds-p-around_small">
+            Total: ₹ {totalAmount}
+        </span>
+    </div>
+</template>
+
+
+            <!-- When no sales -->
+            <template if:false={hasSales}>
+                <div class="slds-align_absolute-center slds-text-color_error slds-text-heading_small">
+                    ❌ No sales recorded today
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

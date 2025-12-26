@@ -1,0 +1,128 @@
+<template>
+    <lightning-card title="New Sale" icon-name="custom:custom63">
+        <div class="slds-p-around_medium">
+
+            <!-- Customer & Sale Date -->
+            <div class="slds-grid slds-gutters">
+    <!-- Customer Lookup Combobox -->
+    <div class="slds-col slds-size_10-of-12">
+        <lightning-combobox
+            label="Customer"
+            value={customerId}
+            options={customerOptions}
+            onchange={handleCustomerChange}
+            required>
+        </lightning-combobox>
+    </div>
+
+    <!-- Add New Customer Button -->
+    <div class="slds-col slds-size_2-of-12 slds-align-bottom">
+        <lightning-button-icon
+            icon-name="utility:add"
+            title="New Customer"
+            alternative-text="New Customer"
+            onclick={handleNewCustomerClick}>
+        </lightning-button-icon>
+    </div>
+</div>
+
+
+            <template if:true={showNewCustomerModal}>
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 class="slds-text-heading_medium">New Customer</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <lightning-input label="First Name" value={newCustomerFirstName} onchange={handleNewCustomerFirstNameChange}></lightning-input>
+                            <lightning-input label="Last Name" value={newCustomerLastName} onchange={handleNewCustomerLastNameChange}></lightning-input>
+                            <lightning-input label="Email" value={newCustomerEmail} onchange={handleNewCustomerEmailChange}></lightning-input>
+                            <lightning-input label="Phone" value={newCustomerPhone} onchange={handleNewCustomerPhoneChange}></lightning-input>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button label="Cancel" onclick={handleCancelNewCustomer}></lightning-button>
+                            <lightning-button variant="brand" label="Save" onclick={handleSaveNewCustomer}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+
+            <lightning-input type="date" label="Sale Date" value={saleDate} onchange={handleDateChange} required></lightning-input>
+
+            <hr class="slds-m-vertical_medium"/>
+
+            <!-- Sale Items -->
+            <template for:each={saleItems} for:item="item" for:index="index">
+                <div key={item.id} class="slds-box slds-m-bottom_small">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_3-of-12">
+                            <lightning-combobox
+                                label="Medicine"
+                                value={item.medicineId}
+                                options={medicineOptions}
+                                data-index={index}
+                                data-field="medicineId"
+                                onchange={handleItemChange}
+                                required>
+                            </lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12">
+                            <lightning-input
+                                type="number"
+                                label="Quantity"
+                                value={item.quantity}
+                                data-index={index}
+                                data-field="quantity"
+                                onchange={handleItemChange}
+                                required>
+                            </lightning-input>
+                        </div>
+
+
+                        <div class="slds-col slds-size_2-of-12">
+                            <lightning-input
+                    type="number"
+                    label="Unit Price"
+                    value={item.unitPrice}
+                    read-only>
+                </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12">
+                            <lightning-input
+                    type="number"
+                    label="Total"
+                    value={item.total}
+                    read-only>
+                </lightning-input>
+                        </div>
+
+
+                        
+                        <div class="slds-col slds-size_1-of-12 slds-align-bottom">
+                            <lightning-button-icon
+                                icon-name="utility:delete"
+                                alternative-text="Remove"
+                                title="Remove"
+                                data-index={index}
+                                onclick={removeSaleItem}>
+                            </lightning-button-icon>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <lightning-button label="Add Item" icon-name="utility:add" onclick={addSaleItem} class="slds-m-bottom_medium"></lightning-button>
+             <div class="slds-text-heading_medium slds-m-top_medium">
+            Grand Total: ₹ {grandTotal}
+        </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="slds-card__footer slds-grid slds-grid_align-end slds-p-around_small">
+            <lightning-button label="Cancel" onclick={handleCancel} class="slds-m-right_small"></lightning-button>
+            <lightning-button label="Save & New" onclick={handleSaveAndNew} class="slds-m-right_small"></lightning-button>
+            <lightning-button variant="brand" label="Save" onclick={handleSave}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

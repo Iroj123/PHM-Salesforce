@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Pharmacy Summary">
+        <div class="slds-m-around_medium slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-3 slds-p-around_small">
+                <div class="slds-box slds-theme_alert-texture slds-text-align_center">
+                    <p>Total Purchase</p>
+                    <h2>{totalPurchase}</h2>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-3 slds-p-around_small">
+                <div class="slds-box slds-theme_success slds-text-align_center">
+                    <p>Total Sales</p>
+                    <h2>{totalSales}</h2>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-3 slds-p-around_small">
+                <div class="slds-box slds-theme_error slds-text-align_center">
+                    <p>Total Loss (Expired)</p>
+                    <h2>{totalLoss}</h2>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>

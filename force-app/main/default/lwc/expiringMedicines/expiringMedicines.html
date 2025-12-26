@@ -1,0 +1,34 @@
+<template>
+    <lightning-card
+        title="Expired and Expiring Medicines (Next 30 Days)"
+        icon-name="utility:event">
+
+        <div class="slds-p-around_medium">
+
+            <!-- Show table when data exists -->
+
+            <template if:true={hasExpiringMedicines}>
+    <div style={tableStyle}>
+
+                <lightning-datatable
+                    key-field="Id"
+                    data={expiringList}
+                    columns={columns}
+                    hide-checkbox-column
+                    show-row-number-column
+                    >
+                </lightning-datatable>
+                    </div>
+
+            </template>
+            
+            <!-- Show message when no data -->
+            <template if:false={hasExpiringMedicines}>
+                <div class="slds-align_absolute-center slds-text-color_success slds-text-heading_small">
+                    ✅ No medicines expiring in the next 30 days
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

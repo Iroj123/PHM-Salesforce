@@ -1,0 +1,141 @@
+<template>
+    <lightning-card title="New Purchase" icon-name="custom:custom63">
+
+        <div class="slds-p-around_medium">
+
+            <!-- ================= Purchase Fields ================= -->
+
+            <lightning-combobox
+                label="Supplier"
+                value={supplierId}
+                options={supplierOptions}
+                onchange={handleSupplierChange}
+                required>
+            </lightning-combobox>
+
+            <lightning-input
+                type="date"
+                label="Purchase Date"
+                value={purchaseDate}
+                onchange={handleDateChange}
+                required>
+            </lightning-input>
+
+            <hr class="slds-m-vertical_medium"/>
+
+            <!-- ================= Purchase Items ================= -->
+
+            <template for:each={purchaseItems} for:item="item" for:index="index">
+                <div key={item.id} class="slds-box slds-m-bottom_small">
+
+                    <div class="slds-grid slds-gutters">
+
+                        <!-- Medicine Combobox -->
+                        <div class="slds-col slds-size_3-of-12">
+                            <lightning-combobox
+                                label="Medicine"
+                                value={item.medicineId}
+                                options={medicineOptions}
+                                data-index={index}
+                                data-field="medicineId"
+                                onchange={handleItemChange}
+                                required>
+                            </lightning-combobox>
+                        </div>
+
+                        <!-- Add New Medicine Button -->
+                        <div class="slds-col slds-size_1-of-12 slds-align-bottom">
+                            <lightning-button-icon
+                                icon-name="utility:add"
+                                title="New Medicine"
+                                alternative-text="New Medicine"
+                                data-index={index}
+                                onclick={handleNewMedicineClick}>
+                            </lightning-button-icon>
+                        </div>
+
+                        <!-- Quantity -->
+                        <div class="slds-col slds-size_3-of-12">
+                            <lightning-input
+                                type="number"
+                                label="Quantity"
+                                value={item.quantity}
+                                data-index={index}
+                                data-field="quantity"
+                                onchange={handleItemChange}
+                                required>
+                            </lightning-input>
+                        </div>
+
+                        <!-- Cost Price -->
+                        <div class="slds-col slds-size_3-of-12">
+                            <lightning-input
+                                type="number"
+                                label="Cost Price"
+                                value={item.costPrice}
+                                data-index={index}
+                                data-field="costPrice"
+                                onchange={handleItemChange}
+                                required>
+                            </lightning-input>
+                        </div>
+
+                        <!-- Remove Button -->
+                        <div class="slds-col slds-size_2-of-12 slds-align-bottom">
+                            <lightning-button-icon
+                                icon-name="utility:delete"
+                                alternative-text="Remove"
+                                title="Remove"
+                                data-index={index}
+                                onclick={removePurchaseItem}>
+                            </lightning-button-icon>
+                        </div>
+
+                    </div>
+                </div>
+            </template>
+
+            <!-- Add Item Button -->
+            <lightning-button
+                label="Add Item"
+                icon-name="utility:add"
+                onclick={addPurchaseItem}
+                class="slds-m-bottom_medium">
+            </lightning-button>
+
+        </div>
+
+        <!-- ================= Footer Buttons ================= -->
+
+        <div class="slds-card__footer slds-grid slds-grid_align-end slds-p-around_small">
+            <lightning-button
+                label="Cancel"
+                onclick={handleCancel}
+                class="slds-m-right_small">
+            </lightning-button>
+
+            <lightning-button
+                label="Save & New"
+                onclick={handleSaveAndNew}
+                class="slds-m-right_small">
+            </lightning-button>
+
+            <lightning-button
+                variant="brand"
+                label="Save"
+                onclick={handleSave}>
+            </lightning-button>
+        </div>
+
+    </lightning-card>
+
+    <!-- ================= New Medicine Modal ================= -->
+   <c-medicine-form 
+    if:true={showNewMedicineModal}
+    onsavemedicine={handleMedicineSaved} 
+    oncancel={handleCancelNewMedicine}>
+</c-medicine-form>
+
+
+
+</template>

@@ -1,0 +1,65 @@
+<template>
+    <lightning-card title="Pharmacy Dashboard" icon-name="custom:custom63">
+
+        <!-- Summary Row -->
+        <div class="slds-grid slds-wrap slds-gutters slds-p-around_medium">
+
+            <!-- Total Customers -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="slds-box slds-theme_default slds-text-align_center">
+                    <lightning-icon
+                        icon-name="standard:contact"
+                        size="large"
+                        class="slds-m-bottom_small">
+                    </lightning-icon>
+
+                    <p class="slds-text-title">Total Customers</p>
+                    <p class="slds-text-heading_large">{totalCustomers}</p>
+                </div>
+            </div>
+
+            <!-- Total Medicines -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="slds-box slds-theme_default slds-text-align_center">
+                    <lightning-icon
+                        icon-name="custom:custom1"
+                        size="large"
+                        class="slds-m-bottom_small">
+                    </lightning-icon>
+
+                    <p class="slds-text-title">Total Medicines</p>
+                    <p class="slds-text-heading_large">{totalMedicines}</p>
+                </div>
+            </div>
+
+            <!-- Total Sales -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="slds-box slds-theme_default slds-text-align_center">
+                    <lightning-icon
+                        icon-name="standard:opportunity"
+                        size="large"
+                        class="slds-m-bottom_small">
+                    </lightning-icon>
+
+                    <p class="slds-text-title">Total Sales</p>
+                    <p class="slds-text-heading_large">{totalSales}</p>
+                </div>
+            </div>
+
+            <!-- Total Revenue -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="slds-box slds-theme_default slds-text-align_center">
+                    <lightning-icon
+                        icon-name="standard:currency"
+                        size="large"
+                        class="slds-m-bottom_small">
+                    </lightning-icon>
+
+                    <p class="slds-text-title">Total Revenue</p>
+                    <p class="slds-text-heading_large">₹ {totalRevenue}</p>
+                </div>
+            </div>
+
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,44 @@
+<template>
+    <lightning-card
+        title="Low Stock Alert"
+        icon-name="utility:warning">
+
+        <div class="slds-p-around_medium">
+
+            <!-- Alert Count -->
+            <div class="slds-align_absolute-center slds-m-bottom_small">
+                <span class="slds-badge slds-theme_error slds-text-heading_medium">
+                    {lowStockCount}
+                </span>
+            </div>
+
+            <!-- Alert Text -->
+            <p class="slds-text-align_center slds-text-title slds-m-bottom_medium">
+                Medicines are running low
+            </p>
+
+            <!-- When low stock exists -->
+            <template if:true={hasLowStock}>
+                    <div style="height: 320px;">
+
+                <lightning-datatable
+                    key-field="Id"
+                    data={lowStockList}
+                    columns={columns}
+                    hide-checkbox-column
+                    show-row-number-column>
+                </lightning-datatable>
+                    </div>
+
+            </template>
+
+            <!-- When no low stock -->
+            <template if:false={hasLowStock}>
+                <div class="slds-align_absolute-center slds-text-color_success slds-text-heading_small">
+                    ✅ All medicines are sufficiently stocked
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
