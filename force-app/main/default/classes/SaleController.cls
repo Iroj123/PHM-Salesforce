@@ -3,14 +3,24 @@ public with sharing class SaleController {
     // ===================== SAVE SALE =====================
     @AuraEnabled
     public static Id saveSaleWithItems(
-        Id customerId,
+        String customerId,
         Date saleDate,
         List<Map<String, Object>> items
     ) {
 
         // -------- BASIC VALIDATIONS --------
-        if (customerId == null)
-            throw new AuraHandledException('Customer is required.');
+        
+       if (String.isBlank(customerId)) {
+        throw new AuraHandledException('Customer is required.');
+    }
+
+    Id cusId;
+    try {
+        cusId = Id.valueOf(customerId);
+    } catch (Exception e) {
+        throw new AuraHandledException('Invalid Customer selected.');
+    }
+    
 
         if (saleDate == null)
             throw new AuraHandledException('Sale Date is required.');
@@ -129,9 +139,9 @@ if (med.Expiry_Date__c != null && med.Expiry_Date__c < System.today()) {
     @AuraEnabled(cacheable=true)
     public static List<Map<String, String>> getCustomers() {
         List<Map<String, String>> options = new List<Map<String, String>>();
-        for (Contact c : [
+        for (Customer__c c : [
             SELECT Id, Name
-            FROM Contact
+            FROM Customer__c
             ORDER BY Name
         ]) {
             options.add(new Map<String, String>{
@@ -163,19 +173,41 @@ if (med.Expiry_Date__c != null && med.Expiry_Date__c < System.today()) {
     @AuraEnabled
     public static Id createCustomer(
         String firstName,
-        String lastName,
+        // String lastName,
         String email,
         String phone
     ) {
-        if (String.isBlank(firstName) && String.isBlank(lastName)) {
-            throw new AuraHandledException('First or Last Name is required.');
-        }
+       if (String.isBlank(firstName)) {
+        throw new AuraHandledException('Name is required');
+    }
 
-        Contact c = new Contact(
-            FirstName = firstName,
-            LastName = lastName,
-            Email = email,
-            Phone = phone
+    // Email validation
+    if (String.isBlank(email)) {
+        throw new AuraHandledException('Email is required');
+    }
+
+    // Phone validation
+    if (String.isBlank(phone)) {
+        throw new AuraHandledException('Phone is required');
+    }
+
+    // Duplicate email check
+    List<Customer__c> existingCustomers = [
+        SELECT Id 
+        FROM Customer__c 
+        WHERE Email__c = :email 
+        LIMIT 1
+    ];
+
+    if (!existingCustomers.isEmpty()) {
+        throw new AuraHandledException('Email cannot be duplicate');
+    }
+
+        Customer__c c = new Customer__c(
+            Name = firstName,
+            // Last_Name__c = lastName,
+            Email__c = email,
+            Phone__c = phone
         );
         insert c;
         return c.Id;

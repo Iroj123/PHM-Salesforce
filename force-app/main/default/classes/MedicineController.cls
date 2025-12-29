@@ -14,20 +14,22 @@ public with sharing class MedicineController {
         if (String.isBlank(medicineName)) {
             throw new AuraHandledException('Medicine Name is required');
         }
+           if (String.isBlank(category)) {
+            throw new AuraHandledException('Category must be selected.');
+        }
+        if (String.isBlank(batchNumber)) {
+            throw new AuraHandledException('Batch Number is required');
+        }
 
-        if (expiryDate != null && expiryDate < Date.today()) {
-            throw new AuraHandledException('Expiry Date cannot be in the past');
+        if (expiryDate == null || expiryDate < Date.today()) {
+    throw new AuraHandledException('Expiry Date cannot be in the past or blank');
         }
 
         if (unitPrice == null || unitPrice <= 0) {
             throw new AuraHandledException('Unit Price must be greater than 0');
         }
-        if (String.isBlank(batchNumber)) {
-            throw new AuraHandledException('Batch Number is required');
-        }
-           if (String.isBlank(category)) {
-            throw new AuraHandledException('Category must be selected.');
-        }
+        
+        
 
         // 🧠 CREATE RECORD
         Medicine__c med = new Medicine__c();

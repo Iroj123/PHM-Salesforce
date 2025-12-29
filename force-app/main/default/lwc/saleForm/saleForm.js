@@ -24,7 +24,7 @@ export default class SaleForm extends NavigationMixin(LightningElement) {
     // New Customer Modal
     @track showNewCustomerModal = false;
     @track newCustomerFirstName = '';
-    @track newCustomerLastName = '';
+    // @track newCustomerLastName = '';
     @track newCustomerEmail = '';
     @track newCustomerPhone = '';
 
@@ -100,20 +100,21 @@ export default class SaleForm extends NavigationMixin(LightningElement) {
     handleNewCustomerClick() { this.showNewCustomerModal = true; }
 
     handleNewCustomerFirstNameChange(event) { this.newCustomerFirstName = event.target.value; }
-    handleNewCustomerLastNameChange(event) { this.newCustomerLastName = event.target.value; }
+    // handleNewCustomerLastNameChange(event) { this.newCustomerLastName = event.target.value; }
     handleNewCustomerEmailChange(event) { this.newCustomerEmail = event.target.value; }
     handleNewCustomerPhoneChange(event) { this.newCustomerPhone = event.target.value; }
 
    handleSaveNewCustomer() {
     createCustomer({
         firstName: this.newCustomerFirstName,
-        lastName: this.newCustomerLastName,
+        // lastName: this.newCustomerLastName,
         email: this.newCustomerEmail,
         phone: this.newCustomerPhone
     })
     .then(result => {
         // Build the display label for combobox
-        const newLabel = `${this.newCustomerFirstName} ${this.newCustomerLastName}`.trim();
+        const newLabel = this.newCustomerFirstName;
+
 
         // Add the new customer to options immediately
         this.customerOptions = [
@@ -127,18 +128,29 @@ export default class SaleForm extends NavigationMixin(LightningElement) {
         // Reset modal fields
         this.showNewCustomerModal = false;
         this.newCustomerFirstName = '';
-        this.newCustomerLastName = '';
+        // this.newCustomerLastName = '';
         this.newCustomerEmail = '';
         this.newCustomerPhone = '';
     })
     .catch(error => {
-        console.error('Error creating customer:', error);
-        this.dispatchEvent(new ShowToastEvent({
+    console.error('Error creating customer:', error);
+
+    let errorMessage = 'Failed to create customer';
+
+    // IMPORTANT: read Apex error message
+    if (error.body && error.body.message) {
+        errorMessage = error.body.message;
+    }
+
+    this.dispatchEvent(
+        new ShowToastEvent({
             title: 'Error',
-            message: 'Failed to create customer',
+            message: errorMessage,
             variant: 'error'
-        }));
-    });
+        })
+    );
+});
+
 }
 
 
@@ -146,7 +158,7 @@ export default class SaleForm extends NavigationMixin(LightningElement) {
     handleCancelNewCustomer() {
         this.showNewCustomerModal = false;
         this.newCustomerFirstName = '';
-        this.newCustomerLastName = '';
+        // this.newCustomerLastName = '';
         this.newCustomerEmail = '';
         this.newCustomerPhone = '';
     }

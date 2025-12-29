@@ -1,14 +1,24 @@
 public with sharing class PurchaseController {
 
+    
+
     @AuraEnabled
     public static Id savePurchaseWithItems(
-        Id supplierId, 
+        String supplierId, 
         Date purchaseDate,
         List<Map<String, Object>> items
     ) {
-        if (supplierId == null) {
-            throw new AuraHandledException('Supplier is required.');
-        }
+       if (String.isBlank(supplierId)) {
+        throw new AuraHandledException('Supplier is required.');
+    }
+
+    Id supId;
+    try {
+        supId = Id.valueOf(supplierId);
+    } catch (Exception e) {
+        throw new AuraHandledException('Invalid Supplier selected.');
+    }
+
         if (purchaseDate == null) {
     throw new AuraHandledException('Purchase Date is required.');
 }
@@ -19,7 +29,9 @@ if (purchaseDate > System.today()) {
 
         if (items == null || items.isEmpty()) {
             throw new AuraHandledException('At least one Purchase Item is required.');
+
         }
+        
 
         // Create Purchase
         Purchase__c purchase = new Purchase__c(

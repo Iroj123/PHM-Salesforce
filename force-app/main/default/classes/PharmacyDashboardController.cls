@@ -4,7 +4,7 @@ public with sharing class PharmacyDashboardController {
         Map<String, Object> summary = new Map<String, Object>();
 
         // Total Customers
-        summary.put('totalCustomers', [SELECT COUNT() FROM Contact]);
+        summary.put('totalCustomers', [SELECT COUNT() FROM Customer__c]);
 
         // Total Medicines
         summary.put('totalMedicines', [SELECT COUNT() FROM Medicine__c]);

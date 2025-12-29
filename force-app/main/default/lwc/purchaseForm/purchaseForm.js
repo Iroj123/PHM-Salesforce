@@ -88,6 +88,7 @@ export default class PurchaseForm extends NavigationMixin(LightningElement) {
     }
 
     handleSave() { 
+        
         console.log('Save button clicked');
         this.saveRecord(false); 
     }
@@ -119,6 +120,9 @@ export default class PurchaseForm extends NavigationMixin(LightningElement) {
                 message:'Purchase created successfully',
                 variant:'success'
             }));
+
+
+            
             
             if(isSaveAndNew){
                 this.resetForm();
