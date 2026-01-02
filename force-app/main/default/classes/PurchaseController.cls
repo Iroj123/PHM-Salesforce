@@ -34,10 +34,24 @@ if (purchaseDate > System.today()) {
         
 
         // Create Purchase
+        Boolean canApprove =
+            FeatureManagement.checkPermission('Can_Approve_Purchase');
+
         Purchase__c purchase = new Purchase__c(
             Supplier__c = supplierId,
             Purchase_Date__c = purchaseDate
         );
+
+        // 🔥 Decision logic
+        if (canApprove) {
+            purchase.Status__c = 'Approved';
+        } else {
+            purchase.Status__c = 'Draft';
+        }
+
+
+
+        
         insert purchase;
 
         // Create Purchase Items

@@ -6,7 +6,7 @@ public with sharing class PharmacyReportController {
         // Total Purchase Cost
         AggregateResult[] purchaseAgg = [
             SELECT SUM(Total_Amount__c) totalPurchase
-            FROM Purchase__c
+            FROM Purchase__c where Status__c = 'Approved'
         ];
         summary.put('TotalPurchaseCost', (Decimal)purchaseAgg[0].get('totalPurchase'));
 
@@ -22,6 +22,8 @@ public with sharing class PharmacyReportController {
 Decimal totalLoss = 0;
 
 // Get all expired medicines
+ //Date next7Days = date.today().addDays(7);
+
 List<Medicine__c> expiredMeds = [
     SELECT Stock_Quantity__c, Unit_Price__c
     FROM Medicine__c

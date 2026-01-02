@@ -21,7 +21,7 @@ public with sharing class MedicineController {
             throw new AuraHandledException('Batch Number is required');
         }
 
-        if (expiryDate == null || expiryDate < Date.today()) {
+        if (expiryDate == null || expiryDate < Date.today() ) {
     throw new AuraHandledException('Expiry Date cannot be in the past or blank');
         }
 

@@ -20,8 +20,7 @@ export default class MedicineForm extends NavigationMixin(LightningElement) {
     categoryOptions = [
         { label: 'Tablet', value: 'Tablet' },
         { label: 'Syrup', value: 'Syrup' },
-        { label: 'Injection', value: 'Injection' },
-        { label: 'Capsule', value: 'Capsule' }
+        { label: 'Injection', value: 'Injection' }
     ];
 
     // ---------- FIELD HANDLERS ----------
