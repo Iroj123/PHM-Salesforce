@@ -120,15 +120,24 @@ export default class PurchaseForm extends NavigationMixin(LightningElement) {
                 message:'Purchase created successfully',
                 variant:'success'
             }));
+            
 
 
             
             
             if(isSaveAndNew){
                 this.resetForm();
-            } else {
-                this.navigateToPurchaseList();
-            }
+            }else {
+            // Navigate to the newly created record
+            this[NavigationMixin.Navigate]({
+                type: 'standard__recordPage',
+                attributes: {
+                    recordId: purchaseId,
+                    objectApiName: 'Purchase__c', // Your object API name
+                    actionName: 'view'
+                }
+            });
+        }
         })
         .catch(error => {
             console.error('FULL ERROR =>', JSON.stringify(error));

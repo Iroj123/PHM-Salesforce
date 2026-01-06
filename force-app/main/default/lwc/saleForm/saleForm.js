@@ -200,8 +200,17 @@ export default class SaleForm extends NavigationMixin(LightningElement) {
                 variant: 'success'
             }));
             if (isSaveAndNew) this.resetForm();
-            else this.handleCancel();
-        })
+else {
+            // Navigate to the newly created record
+            this[NavigationMixin.Navigate]({
+                type: 'standard__recordPage',
+                attributes: {
+                    recordId: result,
+                    objectApiName: 'Sale__c', // Your object API name
+                    actionName: 'view'
+                }
+            });
+        }        })
         .catch(error => {
             console.error('FULL ERROR =>', JSON.stringify(error));
             let message = 'Something went wrong';

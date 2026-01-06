@@ -27,7 +27,7 @@ Decimal totalLoss = 0;
 List<Medicine__c> expiredMeds = [
     SELECT Stock_Quantity__c, Unit_Price__c
     FROM Medicine__c
-    WHERE Expiry_Date__c <= TODAY
+    WHERE Expiry_Date__c < TODAY
 ];
 
 // Calculate total loss in Apex
