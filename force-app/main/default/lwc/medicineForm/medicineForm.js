@@ -57,9 +57,14 @@ export default class MedicineForm extends NavigationMixin(LightningElement) {
         this.saveRecord(true);
     }
 
-    handleCancel() {
-        this.navigateToMedicineList();
-    }
+    // handleCancel() {
+    //     this.navigateToMedicineList();
+    // }
+
+   handleCancel(event) {
+    event.preventDefault(); // extra safety
+    window.history.back();
+}
 
     // ---------- COMMON SAVE METHOD ----------
     saveRecord(isSaveAndNew) {
@@ -142,5 +147,5 @@ export default class MedicineForm extends NavigationMixin(LightningElement) {
                 filterName: 'Recent'
             }
         });
-    }z
+    }
 }

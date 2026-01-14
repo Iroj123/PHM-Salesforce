@@ -153,21 +153,72 @@ if (med.Expiry_Date__c != null && med.Expiry_Date__c < System.today()) {
     }
 
     // ===================== GET MEDICINES =====================
+    // @AuraEnabled(cacheable=true)
+    // public static List<Map<String, String>> getMedicines() {
+    //     List<Map<String, String>> options = new List<Map<String, String>>();
+    //     for (Medicine__c m : [
+    //         SELECT Id, Medicine_Name__c
+    //         FROM Medicine__c
+    //         WHERE Active__c = TRUE
+    //         ORDER BY Medicine_Name__c
+    //     ]) {
+    //         options.add(new Map<String, String>{
+    //             'label' => m.Medicine_Name__c,
+    //             'value' => m.Id
+    //         });
+    //     }
+    //     return options;
+    //}
+
+
+
     @AuraEnabled(cacheable=true)
-    public static List<Map<String, String>> getMedicines() {
-        List<Map<String, String>> options = new List<Map<String, String>>();
-        for (Medicine__c m : [
+public static List<Map<String, String>> getMedicines() {
+    List<Map<String, String>> options = new List<Map<String, String>>();
+    
+    Boolean isPharmacist = false;
+
+    // Check if current user has Pharmacist permission set
+    for (PermissionSetAssignment psa : [
+        SELECT PermissionSet.Name 
+        FROM PermissionSetAssignment 
+        WHERE AssigneeId = :UserInfo.getUserId()
+    ]) {
+        if (psa.PermissionSet.Name == 'Pharmacist') {
+            isPharmacist = true;
+            break;
+        }
+    }
+
+    // Query medicines
+    List<Medicine__c> medicines;
+    if (isPharmacist) {
+        // Pharmacist sees only active medicines
+        medicines = [
+            SELECT Id, Medicine_Name__c
+            FROM Medicine__c
+            WHERE Is_Active__c = TRUE
+            ORDER BY Medicine_Name__c
+        ];
+    } else {
+        // Other users see all medicines
+        medicines = [
             SELECT Id, Medicine_Name__c
             FROM Medicine__c
             ORDER BY Medicine_Name__c
-        ]) {
-            options.add(new Map<String, String>{
-                'label' => m.Medicine_Name__c,
-                'value' => m.Id
-            });
-        }
-        return options;
+        ];
     }
+
+    // Prepare options for LWC
+    for (Medicine__c m : medicines) {
+        options.add(new Map<String, String>{
+            'label' => m.Medicine_Name__c,
+            'value' => m.Id
+        });
+    }
+
+    return options;
+}
 
     // ===================== CREATE CUSTOMER =====================
     @AuraEnabled

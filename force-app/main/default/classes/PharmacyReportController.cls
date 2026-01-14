@@ -22,7 +22,6 @@ public with sharing class PharmacyReportController {
 Decimal totalLoss = 0;
 
 // Get all expired medicines
- //Date next7Days = date.today().addDays(7);
 
 List<Medicine__c> expiredMeds = [
     SELECT Stock_Quantity__c, Unit_Price__c

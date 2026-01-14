@@ -110,6 +110,7 @@ if (purchaseDate > System.today()) {
         for (Medicine__c m : [
             SELECT Id, Medicine_Name__c
             FROM Medicine__c
+            WHERE Is_Active__c = true
             ORDER BY Medicine_Name__c
         ]) {
             meds.add(new Map<String,String>{

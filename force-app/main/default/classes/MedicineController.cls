@@ -10,7 +10,7 @@ public with sharing class MedicineController {
         Boolean isActive
     ) {
 
-        // 🛑 Basic validations
+        //  Basic validations
         if (String.isBlank(medicineName)) {
             throw new AuraHandledException('Medicine Name is required');
         }
