@@ -1,8 +1,5 @@
 public with sharing class PurchaseController {
-
-    
-
-    @AuraEnabled
+     @AuraEnabled
     public static Id savePurchaseWithItems(
         String supplierId, 
         Date purchaseDate,

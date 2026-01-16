@@ -153,25 +153,6 @@ if (med.Expiry_Date__c != null && med.Expiry_Date__c < System.today()) {
     }
 
     // ===================== GET MEDICINES =====================
-    // @AuraEnabled(cacheable=true)
-    // public static List<Map<String, String>> getMedicines() {
-    //     List<Map<String, String>> options = new List<Map<String, String>>();
-    //     for (Medicine__c m : [
-    //         SELECT Id, Medicine_Name__c
-    //         FROM Medicine__c
-    //         WHERE Active__c = TRUE
-    //         ORDER BY Medicine_Name__c
-    //     ]) {
-    //         options.add(new Map<String, String>{
-    //             'label' => m.Medicine_Name__c,
-    //             'value' => m.Id
-    //         });
-    //     }
-    //     return options;
-    //}
-
-
-
     @AuraEnabled(cacheable=true)
 public static List<Map<String, String>> getMedicines() {
     List<Map<String, String>> options = new List<Map<String, String>>();
